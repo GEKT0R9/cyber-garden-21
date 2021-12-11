@@ -1,12 +1,12 @@
 <?php
 
-// $DATABASE_URL = [
-//     'host' => 'localhost',
-//     'path' => '/cyber_garden_21',
-//     'user' => 'postgres',
-//     'pass' => '',
-// ];
-//$url = "";
+$DATABASE_URL = [
+    'host' => 'localhost',
+    'path' => '/cyber_garden_21',
+    'user' => 'postgres',
+    'pass' => '',
+];
+
 $DATABASE_URL = parse_url(getenv("DATABASE_URL"));
 
 return [
