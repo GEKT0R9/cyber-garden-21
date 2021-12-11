@@ -34,7 +34,16 @@ class m211211_071256_StartDb extends Migration
                 'email' => 'admin@admin.admin',
                 'password' => '$2y$10$VYhgVh19t21sDBJvwlfQmuEk1mu44OfLLqnsVoWwHqHQ3DmlEcd/a',
             ]
-        ); 
+        );
+        
+        $this->createTable(
+            'users_emails',
+            [
+                'id' => $this->primaryKey(),
+                'user_id' => $this->primaryKey(),
+                'email' => $this->string(50)->notNull()->unique(),
+            ]
+        );
     }
 
     /**
