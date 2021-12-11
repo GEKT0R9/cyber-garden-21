@@ -1,0 +1,106 @@
+extends layout2.pug
+
+block header
+    h2 Обзор
+
+block head
+    style.
+        .corusel {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-column-gap: 1rem;
+
+        }
+
+        .card {
+            box-shadow: none;
+            border: 2px solid #e0e1eb;
+            background: white;
+            min-height: 10rem;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat .label {
+            font-weight: bold;
+            font-size: 19px;
+            line-height: 24px;
+            letter-spacing: 0.4px;
+            color: #9fa2b4;
+        }
+
+        .stat .count {
+            display: block;
+            font-weight: bold;
+            font-size: 40px;
+            letter-spacing: 1px;
+            /*color: #252733;*/
+        }
+
+        .corusel .stat:hover {
+            color: #3751ff;
+            border: 2px solid #3751ff;
+            box-shadow: 0 0 0 3px #3776ff55;
+        }
+
+        .stat-card {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+        }
+
+        .chart img {
+            width: 100%;
+        }
+
+        .chart {
+            background: red;
+            height: 100%;
+            display: grid;
+        }
+
+        .stat-list {
+            background: blue;
+            height: 100%;
+        }
+
+        .stat-list .stat {
+            min-height: 7rem;
+        }
+
+block body
+    .corusel
+        -
+            const stats = [
+                { title: "Решены", count: 60 },
+                { title: "Просрочены", count: 16 },
+                { title: "Отклонены", count: 43 },
+                { title: "Продлены", count: 64 }
+            ];
+        for stat in stats
+            .card.stat.interactive
+                span=stat.title
+                a.count=stat.count
+    .card.stat-card
+        .chart
+            h3 График
+            div
+                span 23 декабря 2021, 09:41
+            img(src="img/chart.png")
+        .stat-list
+            -
+                const stats2 = [
+                    { title: "Вопросы", count: 449 },
+                    { title: "Жалобы", count: 426 },
+                    { title: "Предложения", count: 43 },
+                    { title: "Без темы", count: 15 },
+                    { title: "Среднее время ответа", count: "12д 5ч" }
+                ];
+            for stat in stats2
+                .stat
+                    span=stat.title
+                    a.count=stat.count

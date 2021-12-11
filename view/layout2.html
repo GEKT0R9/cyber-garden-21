@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="document-state" content="Dynamic"><link rel="shortcut icon" href="/favicon.png"><link rel="stylesheet" href="css/common.css"><link href="fa/css/all.min.css" rel="stylesheet"><style>body {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 250px auto;
+    background: #f7f8fc;
+}
+
+body > .header {
+    background: #363740;
+    overflow: hidden;
+}
+
+.title {
+    display: flex;
+    justify-content: space-evenly;
+    height: 70px;
+    color: #a4a6b3;
+    font-weight: lighter;
+    align-items: center;;
+    margin: 1rem;
+}
+
+.title img {
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.tab {
+    display: flex;
+    color: #a4a6b3;
+    padding: 1rem;
+    line-height: 20px;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    justify-items: center;
+}
+
+.tab i {
+    margin: auto 0;
+}
+
+.tab a {
+    margin-left: 1rem;
+}
+
+.tab:hover {
+    border-left: 3px solid #dde2ff;
+    background: #3e4049;
+    color: #d3d8f4;
+}
+
+.content-body {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+}
+
+.content-body > .header h2 {
+    color: #252733;
+    letter-spacing: 0.3px;
+    font-weight: bold;
+    margin: 1rem;
+}
+
+.content-body > .header, .lefter {
+    height: 70px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.profile img {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 50%;
+    margin-left: 1rem;
+    background: #dfe0eb;
+    border: 1px solid #dfe0eb;
+}
+
+.interactive {
+    transition: all .2s ease-out;
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: .5rem;
+}
+
+.interactive:hover {
+    background: #ddd;
+    transform: translateY(-3px);
+}
+</style></head><body><div class="header"><div class="title"><img src="img/logo.png"><h3>10 из 10</h3></div><div class="tab"><i class="fas fa-chart-pie"></i><a>Обзор</a></div><div class="tab"><i class="fas fa-ticket-alt"></i><a>Обращения</a></div><div class="tab"><i class="fas fa-chart-bar"></i><a>Аналитика</a></div><div class="tab"><i class="fas fa-clipboard"></i><a>Отчёты</a></div><div class="tab"><i class="fas fa-user-cog"></i><a>Управление персоналом</a></div><div class="tab"><i class="fas fa-book"></i><a>Список больниц</a></div><hr style="border:none;color:gray;background-color:gray;height:1px;margin:1rem 1rem;"><div class="tab"><i class="fas fa-cog"></i><a>Настройки</a></div><div class="tab"><i class="fas fa-sign-out-alt"></i><a>Выход</a></div></div><div class="content-body"><div class="header"><h2>Обзор</h2><div class="lefter"><i class="interactive fas fa-search fa-lg"></i><i class="interactive fas fa-bell fa-lg"></i><div class="profile interactive"><a>Патрик</a><img src="img/patrik.webp"></div></div></div></div></body></html>

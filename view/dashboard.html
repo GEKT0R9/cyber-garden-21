@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="document-state" content="Dynamic"><link rel="shortcut icon" href="/favicon.png"><link rel="stylesheet" href="css/common.css"><link href="fa/css/all.min.css" rel="stylesheet"><style>body {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 250px auto;
+    background: #f7f8fc;
+}
+
+body > .header {
+    background: #363740;
+    overflow: hidden;
+}
+
+.title {
+    display: flex;
+    justify-content: space-evenly;
+    height: 70px;
+    color: #a4a6b3;
+    font-weight: lighter;
+    align-items: center;;
+    margin: 1rem;
+}
+
+.title img {
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.tab {
+    display: flex;
+    color: #a4a6b3;
+    padding: 1rem;
+    line-height: 20px;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    justify-items: center;
+}
+
+.tab i {
+    margin: auto 0;
+}
+
+.tab a {
+    margin-left: 1rem;
+}
+
+.tab:hover {
+    border-left: 3px solid #dde2ff;
+    background: #3e4049;
+    color: #d3d8f4;
+}
+
+.content-body {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+}
+
+.content-body > .header {
+    margin-bottom: 1rem;
+}
+
+.content-body > .header h2 {
+    color: #252733;
+    letter-spacing: 0.3px;
+    font-weight: bold;
+    margin: 1rem;
+}
+
+.content-body > .header, .lefter {
+    height: 70px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.profile img {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 50%;
+    margin-left: 1rem;
+    background: #dfe0eb;
+    border: 1px solid #dfe0eb;
+}
+
+.lefter > *:hover {
+    background: #ddd;
+}
+
+.interactive {
+    transition: all .2s ease-out;
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: .5rem;
+}
+
+.interactive:hover {
+    transform: translateY(-3px);
+}
+</style><style>.corusel {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 1rem;
+
+}
+
+.card {
+    box-shadow: none;
+    border: 2px solid #e0e1eb;
+    background: white;
+    min-height: 10rem;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.stat .label {
+    font-weight: bold;
+    font-size: 19px;
+    line-height: 24px;
+    letter-spacing: 0.4px;
+    color: #9fa2b4;
+}
+
+.stat .count {
+    display: block;
+    font-weight: bold;
+    font-size: 40px;
+    letter-spacing: 1px;
+    /*color: #252733;*/
+}
+
+.corusel .stat:hover {
+    color: #3751ff;
+    border: 2px solid #3751ff;
+    box-shadow: 0 0 0 3px #3776ff55;
+}
+
+.stat-card {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.chart img {
+    width: 100%;
+}
+
+.chart {
+    background: red;
+    height: 100%;
+    display: grid;
+}
+
+.stat-list {
+    background: blue;
+    height: 100%;
+}
+
+.stat-list .stat {
+    min-height: 7rem;
+}
+</style></head><body><div class="header"><div class="title"><img src="img/logo.png"><h3>ЛолКекЧебурек</h3></div><div class="tab"><i class="fas fa-chart-pie"></i><a>Обзор</a></div><div class="tab"><i class="fas fa-ticket-alt"></i><a>Обращения</a></div><div class="tab"><i class="fas fa-chart-bar"></i><a>Аналитика</a></div><div class="tab"><i class="fas fa-clipboard"></i><a>Отчёты</a></div><div class="tab"><i class="fas fa-user-cog"></i><a>Управление персоналом</a></div><div class="tab"><i class="fas fa-book"></i><a>Список больниц</a></div><hr style="border:none;color:gray;background-color:gray;height:1px;margin:1rem 1rem;"><div class="tab"><i class="fas fa-cog"></i><a>Настройки</a></div><div class="tab"><i class="fas fa-sign-out-alt"></i><a>Выход</a></div></div><div class="content-body"><div class="header"><h2>Обзор</h2><div class="lefter"><i class="interactive fas fa-search fa-lg"></i><i class="interactive fas fa-bell fa-lg"></i><div class="profile interactive"><a>Патрик</a><img src="img/patrik.webp"></div></div></div><div class="corusel"><div class="card stat interactive"><span>Решены</span><a class="count">60</a></div><div class="card stat interactive"><span>Просрочены</span><a class="count">16</a></div><div class="card stat interactive"><span>Отклонены</span><a class="count">43</a></div><div class="card stat interactive"><span>Продлены</span><a class="count">64</a></div></div><div class="card stat-card"><div class="chart"><h3>График</h3><div><span>23 декабря 2021, 09:41</span></div><img src="img/chart.png"></div><div class="stat-list"><div class="stat"><span>Вопросы</span><a class="count">449</a></div><div class="stat"><span>Жалобы</span><a class="count">426</a></div><div class="stat"><span>Предложения</span><a class="count">43</a></div><div class="stat"><span>Без темы</span><a class="count">15</a></div><div class="stat"><span>Среднее время ответа</span><a class="count">12д 5ч</a></div></div></div></div></body></html>
