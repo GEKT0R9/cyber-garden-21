@@ -43,7 +43,7 @@ body > .header {
     margin-left: 1rem;
 }
 
-.tab:hover {
+.tab.active {
     border-left: 3px solid #dde2ff;
     background: #3e4049;
     color: #d3d8f4;
@@ -105,7 +105,7 @@ body > .header {
 .interactive:hover {
     transform: translateY(-3px);
 }
-</style><style>.corusel {
+</style><script src="chart-js/dist/chart.min.js"></script><style>.corusel {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 1rem;
@@ -124,6 +124,7 @@ body > .header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0;
 }
 
 .stat .label {
@@ -150,7 +151,7 @@ body > .header {
 
 .stat-card {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: auto 300px;
 }
 
 .chart img {
@@ -158,17 +159,106 @@ body > .header {
 }
 
 .chart {
-    background: red;
     height: 100%;
     display: grid;
+    overflow: hidden;
+}
+
+.chart div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chart h3 {
+    margin: 0;
+}
+
+.chart canvas {
+    max-height: 30rem;
+    width: 100%;
 }
 
 .stat-list {
-    background: blue;
     height: 100%;
 }
 
 .stat-list .stat {
     min-height: 7rem;
 }
-</style></head><body><div class="header"><div class="title"><img src="img/logo.png"><h3>ЛолКекЧебурек</h3></div><div class="tab"><i class="fas fa-chart-pie"></i><a>Обзор</a></div><div class="tab"><i class="fas fa-ticket-alt"></i><a>Обращения</a></div><div class="tab"><i class="fas fa-chart-bar"></i><a>Аналитика</a></div><div class="tab"><i class="fas fa-clipboard"></i><a>Отчёты</a></div><div class="tab"><i class="fas fa-user-cog"></i><a>Управление персоналом</a></div><div class="tab"><i class="fas fa-book"></i><a>Список больниц</a></div><hr style="border:none;color:gray;background-color:gray;height:1px;margin:1rem 1rem;"><div class="tab"><i class="fas fa-cog"></i><a>Настройки</a></div><div class="tab"><i class="fas fa-sign-out-alt"></i><a>Выход</a></div></div><div class="content-body"><div class="header"><h2>Обзор</h2><div class="lefter"><i class="interactive fas fa-search fa-lg"></i><i class="interactive fas fa-bell fa-lg"></i><div class="profile interactive"><a>Патрик</a><img src="img/patrik.webp"></div></div></div><div class="corusel"><div class="card stat interactive"><span>Решены</span><a class="count">60</a></div><div class="card stat interactive"><span>Просрочены</span><a class="count">16</a></div><div class="card stat interactive"><span>Отклонены</span><a class="count">43</a></div><div class="card stat interactive"><span>Продлены</span><a class="count">64</a></div></div><div class="card stat-card"><div class="chart"><h3>График</h3><div><span>23 декабря 2021, 09:41</span></div><img src="img/chart.png"></div><div class="stat-list"><div class="stat"><span>Вопросы</span><a class="count">449</a></div><div class="stat"><span>Жалобы</span><a class="count">426</a></div><div class="stat"><span>Предложения</span><a class="count">43</a></div><div class="stat"><span>Без темы</span><a class="count">15</a></div><div class="stat"><span>Среднее время ответа</span><a class="count">12д 5ч</a></div></div></div></div></body></html>
+
+.stat-list .stat:not(:last-child) {
+    border-bottom: 1px solid #dfe0eb;
+}
+
+.reports {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1rem;
+}
+
+.reports .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reports .header span {
+    color: #999999;
+}
+
+.reports span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reports .card {
+    margin: 0;
+}
+
+.reports .interactive {
+    color: #3751ff;
+    font-weight: bold;
+    border: 0 solid white;
+}
+
+.reports .interactive:hover {
+    border: 1px solid #3751ff;
+    font-weight: bold;
+}
+
+.statData, .repData {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    height: 4rem;
+}
+
+.repData .status {
+    padding: .2rem .5rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+}
+
+.statData:not(:last-child), .repData:not(:last-child) {
+    border-bottom: 1px solid #dfe0eb;
+}
+</style></head><body><div class="header"><div class="title"><img src="img/logo.png"><h3>ЛолКекЧебурек</h3></div><div class="tab active"><i class="fas fa-chart-pie"></i><a>Обзор</a></div><div class="tab"><i class="fas fa-ticket-alt"></i><a>Обращения</a></div><div class="tab"><i class="fas fa-chart-bar"></i><a>Аналитика</a></div><div class="tab"><i class="fas fa-clipboard"></i><a>Отчёты</a></div><div class="tab"><i class="fas fa-user-cog"></i><a>Управление персоналом</a></div><div class="tab"><i class="fas fa-book"></i><a>Список больниц</a></div><hr style="border:none;color:gray;background-color:gray;height:1px;margin:1rem 1rem;"><div class="tab"><i class="fas fa-cog"></i><a>Настройки</a></div><div class="tab"><i class="fas fa-sign-out-alt"></i><a>Выход</a></div></div><div class="content-body"><div class="header"><h2>Обзор</h2><div class="lefter"><i class="interactive fas fa-search fa-lg"></i><i class="interactive fas fa-bell fa-lg"></i><div class="profile interactive"><a>Патрик</a><img src="img/patrik.webp"></div></div></div><div class="corusel"><div class="card stat interactive"><span>Решены</span><a class="count">60</a></div><div class="card stat interactive"><span>Просрочены</span><a class="count">16</a></div><div class="card stat interactive"><span>Отклонены</span><a class="count">43</a></div><div class="card stat interactive"><span>Продлены</span><a class="count">64</a></div></div><div class="card stat-card"><div class="chart"><div><h3>График</h3><span>23 декабря 2021, 09:41</span></div><canvas id="chart" width="400" height="400"></canvas></div><div class="stat-list"><div class="stat"><span>Вопросы</span><a class="count">449</a></div><div class="stat"><span>Жалобы</span><a class="count">426</a></div><div class="stat"><span>Предложения</span><a class="count">43</a></div><div class="stat"><span>Без темы</span><a class="count">15</a></div><div class="stat"><span>Среднее время ответа</span><a class="count">12д 5ч</a></div></div></div><script>const ctx = document.getElementById('chart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'line',
+    data: {"labels":["1 дек","2 дек","3 дек","4 дек","5 дек","6 дек","7 дек","8 дек","9 дек","10 дек","11 дек","12 дек","13 дек","14 дек","15 дек","16 дек","17 дек","18 дек","19 дек","20 дек","21 дек","22 дек"],"datasets":[{"label":"Предложения","data":[8,12,12,12,6,10,13,11,8,14,14,13,10,12,6,7,8,14,7,12,15,6],"cubicInterpolationMode":"monotone","backgroundColor":"green","borderColor":"green","tension":0.4},{"label":"Вопросы","data":[8,11,13,10,12,14,13,8,12,9,10,12,6,14,12,5,14,10,6,10,10,12],"cubicInterpolationMode":"monotone","backgroundColor":"orange","borderColor":"orange","tension":0.4},{"label":"Жалобы","data":[25,16,17,15,16,15,23,21,15,21,16,17,19,21,25,18,18,18,19,19,20,22],"cubicInterpolationMode":"monotone","backgroundColor":"red","borderColor":"red","tension":0.4},{"label":"Без темы","data":[3,2,1,0,1,1,1,3,1,2,2,3,1,0,3,2,2,2,2,1,1,3],"cubicInterpolationMode":"monotone","backgroundColor":"gray","borderColor":"gray","tension":0.4}]},
+    options: {
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});</script><div class="reports"><div class="card"><div class="header"><div><h3>Статистика</h3><span>Регион: Ростов-На-Дону</span></div><div class="interactive">Детали</div></div><div class="statData"><span>Получено</span><a class="status">4238</a></div><div class="statData"><span>Не просмотрено</span><a class="status">1005</a></div><div class="statData"><span>Ожидают решения</span><a class="status">914</a></div><div class="statData"><span>Отклонены</span><a class="status">281</a></div></div><div class="card"><div class="header"><div><h3>Обращения</h3><span>Сегодня</span></div><div class="interactive">Все</div></div><div class="repData"><span>Споткнулась об камень напротив больницы</span><a class="status" style="background:#fec400">Отклонено</a></div><div class="repData"><span>Не дали воды в торговом центре</span><a class="status" style="background:#fec400">Отклонено</a></div><div class="repData"><span>Течет крыша в больнице “Кировская”</span><a class="status" style="background:#29cc97">Новое</a></div><div class="repData"><span>Руководство больнице плохо относится к пациентам</span><a class="status" style="background:#9fa2b4">Продлено</a></div></div></div></div></body></html>

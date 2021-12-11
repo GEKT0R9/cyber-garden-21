@@ -4,6 +4,7 @@ block header
     h2 Обзор
 
 block head
+    script(src="chart-js/dist/chart.min.js")
     style.
         .corusel {
             display: grid;
@@ -24,6 +25,7 @@ block head
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            margin: 0;
         }
 
         .stat .label {
@@ -50,7 +52,7 @@ block head
 
         .stat-card {
             display: grid;
-            grid-template-columns: 3fr 1fr;
+            grid-template-columns: auto 300px;
         }
 
         .chart img {
@@ -58,18 +60,92 @@ block head
         }
 
         .chart {
-            background: red;
             height: 100%;
             display: grid;
+            overflow: hidden;
+        }
+
+        .chart div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chart h3 {
+            margin: 0;
+        }
+
+        .chart canvas {
+            max-height: 30rem;
+            width: 100%;
         }
 
         .stat-list {
-            background: blue;
             height: 100%;
         }
 
         .stat-list .stat {
             min-height: 7rem;
+        }
+
+        .stat-list .stat:not(:last-child) {
+            border-bottom: 1px solid #dfe0eb;
+        }
+
+        .reports {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-column-gap: 1rem;
+        }
+
+        .reports .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reports .header span {
+            color: #999999;
+        }
+
+        .reports span {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reports .card {
+            margin: 0;
+        }
+
+        .reports .interactive {
+            color: #3751ff;
+            font-weight: bold;
+            border: 0 solid white;
+        }
+
+        .reports .interactive:hover {
+            border: 1px solid #3751ff;
+            font-weight: bold;
+        }
+
+        .statData, .repData {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            height: 4rem;
+        }
+
+        .repData .status {
+            padding: .2rem .5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .statData:not(:last-child), .repData:not(:last-child) {
+            border-bottom: 1px solid #dfe0eb;
         }
 
 block body
@@ -87,10 +163,10 @@ block body
                 a.count=stat.count
     .card.stat-card
         .chart
-            h3 График
             div
+                h3 График
                 span 23 декабря 2021, 09:41
-            img(src="img/chart.png")
+            canvas(id="chart" width="400" height="400")
         .stat-list
             -
                 const stats2 = [
@@ -104,3 +180,91 @@ block body
                 .stat
                     span=stat.title
                     a.count=stat.count
+    -
+        const arr = new Array(22).fill(null);
+        const data = {
+            labels: arr.map((x, i) => `${ i + 1 } дек`),
+            datasets: [
+                {
+                    label: 'Предложения',
+                    data: arr.map(x => Math.round(Math.random() * 10) + 5),
+                    cubicInterpolationMode: 'monotone',
+                    backgroundColor: "green",
+                    borderColor: "green",
+                    tension: 0.4
+                }, {
+                    label: 'Вопросы',
+                    data: arr.map(x => Math.round(Math.random() * 10) + 5),
+                    cubicInterpolationMode: 'monotone',
+                    backgroundColor: "orange",
+                    borderColor: "orange",
+                    tension: 0.4
+                }, {
+                    label: 'Жалобы',
+                    data: arr.map(x => Math.round(Math.random() * 10) + 15),
+                    cubicInterpolationMode: 'monotone',
+                    backgroundColor: "red",
+                    borderColor: "red",
+                    tension: 0.4
+                }, {
+                    label: 'Без темы',
+                    data: arr.map(x => Math.round(Math.random() * 3)),
+                    cubicInterpolationMode: 'monotone',
+                    backgroundColor: "gray",
+                    borderColor: "gray",
+                    tension: 0.4
+                }
+            ]
+        };
+    script.
+        const ctx = document.getElementById('chart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: !{ JSON.stringify(data) },
+            options: {
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    .reports
+        .card
+            .header
+                div
+                    h3 Статистика
+                    span Регион: Ростов-На-Дону
+                .interactive Детали
+            -
+                const statData = [
+                    { title: "Получено", count: 4238 },
+                    { title: "Не просмотрено", count: 1005 },
+                    { title: "Ожидают решения", count: 914 },
+                    { title: "Отклонены", count: 281 },
+                ];
+            for stat in statData
+                .statData
+                    span=stat.title
+                    a.status=stat.count
+        .card
+            .header
+                div
+                    h3 Обращения
+                    span Сегодня
+                .interactive Все
+            -
+                const reportData = [
+                    { title: "Споткнулась об камень напротив больницы", status: "Отклонено", color: "#fec400" },
+                    { title: "Не дали воды в торговом центре", status: "Отклонено", color: "#fec400" },
+                    { title: "Течет крыша в больнице “Кировская”", status: "Новое", color: "#29cc97" },
+                    { title: "Руководство больнице плохо относится к пациентам", status: "Продлено", color: "#9fa2b4" },
+                ];
+            for stat in reportData
+                .repData
+                    span=stat.title
+                    a.status(style=`background:${ stat.color }`)=stat.status
