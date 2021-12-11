@@ -2,6 +2,9 @@
 
 namespace app\models;
 
+use app\entity\Users;
+use app\repository\UserRepository;
+
 class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
     public $id;
