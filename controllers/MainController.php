@@ -60,7 +60,6 @@ class MainController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->redirect('main/login');
         }
-        return $this->render('index');
     }
 
     /**
