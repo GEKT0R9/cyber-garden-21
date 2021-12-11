@@ -57,9 +57,7 @@ class MainController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect('main/login');
-        }
+        return $this->render('index');
     }
 
     /**
@@ -76,6 +74,7 @@ class MainController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
+            // return $this->redirect('about');
         }
 
         $model->password = '';

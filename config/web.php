@@ -15,6 +15,7 @@ $config = [
     'components' => [
         'request' => [
             'cookieValidationKey' => 'cyber-garden-21',
+            'baseUrl'=> '',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -41,6 +42,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<controller>/<action>' => '<controller>/<action>'
             ],
         ],
         
