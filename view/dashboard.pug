@@ -239,7 +239,7 @@ block body
                 div
                     h3 Статистика
                     span Регион: Ростов-На-Дону
-                .interactive Детали
+                a.interactive(href="/analytics") Детали
             -
                 const statData = [
                     { title: "Получено", count: 4238 },
@@ -256,7 +256,7 @@ block body
                 div
                     h3 Обращения
                     span Сегодня
-                .interactive Все
+                a.interactive(href="/reports") Все
             -
                 const reportData = [
                     { title: "Споткнулась об камень напротив больницы", status: "Отклонено", color: "#fec400" },
