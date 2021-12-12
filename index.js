@@ -90,51 +90,38 @@ async function main() {
         }
     });
 
-    app.get("/dashboard", (req, res, next) => {
-        res.render(path.join(__dirname, "view", "dashboard.pug"));
+    app.get("/reports", (req, res, next) => {
+        if (!req.user) {
+            res.redirect("/");
+            return;
+        }
+        res.render(path.join(__dirname, "view", "reports.pug"), {
+            activeTab: "reports"
+        });
     });
 
-    async function handleApi(req, res, next, apiFunction) {
-        try {
-            res.send({
-                ok: true,
-                result: await apiFunction()
-            });
-        } catch (e) {
-            const code = `${ Date.now() }-${ Math.randomInt(1, 1000) }`;
-            console.error(`[api]`, "error", code, e);
-            return res.status(500).send({
-                ok: false,
-                error: e.message.startsWith("API error") ? e.message : "Internal error",
-                trackCode: code
-            });
+    app.get("/dashboard", (req, res, next) => {
+        if (!req.user) {
+            res.redirect("/");
+            return;
         }
-    }
-
-    app.get("/api/get", async (req, res, next) => {
-        await handleApi(req, res, next, async () => {
-            const date = Date.sure(req.query.date) || new Date();
-            if (!date)
-                throw new Error("API error: incorrect \"date\"");
-            if (!req.query.group)
-                throw new Error("API error: incorrect \"group\"");
-            const scheduleInfo = await Schedule.getSchedule(req.query.group);
-            scheduleInfo.date = date.toDateString();
-            scheduleInfo.weekNumber = await Schedule.getWeekNumber(date) + 1;
-            scheduleInfo.dayNum = await Schedule.dateToWeekDay(date);
-            scheduleInfo.dayTitle = [ "понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "воскресенье" ][scheduleInfo.dayNum - 1];
-            return scheduleInfo;
+        res.render(path.join(__dirname, "view", "dashboard.pug"), {
+            activeTab: "dashboard"
         });
+    });
 
-        function rnd() {
-            return {
-                region: "60000000000"
-            };
+    app.get("/accounts", (req, res, next) => {
+        if (!req.user) {
+            res.redirect("/");
+            return;
         }
+        res.render(path.join(__dirname, "view", "accounts.pug"), {
+            activeTab: "accounts"
+        });
     });
 
     app.listen(process.env.PORT || 80, () => {
-        console.log(`weblog Web server live on port ${ process.env.PORT || 80 }`);
+        console.log(`weblog Web server live on port http://127.0.0.1:${ process.env.PORT || 80 }/`);
     });
 }
 
