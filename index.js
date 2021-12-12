@@ -106,10 +106,7 @@ async function main() {
             res.redirect("/");
         } else {
             if (req.query.l && req.query.p) {
-                const aid = await db.rquery1(`select id
-                                              from account
-                                              where username = $1
-                                                and password = $2`, [ req.query.l, checksum(req.query.p) ]);
+                const aid = await db.rquery1(`select id from account where username = $1 and password = $2`, [ req.query.l, checksum(req.query.p) ]);
                 if (aid) {
                     res.cookie("aid", aid.id);
                     res.redirect("/dashboard");
