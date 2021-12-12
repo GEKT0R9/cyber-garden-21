@@ -1,0 +1,33 @@
+extends layout2.pug
+
+block header
+    .flex
+        h2 Обращения по городу:
+        span.interactive.dropdown
+            | Ростов-на-дону
+            i(class="fas fa-angle-down" style="margin-left:1rem")
+
+block head
+    style.
+        .flex {
+            display: flex;
+            align-items: baseline;
+        }
+
+        .dropdown {
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e0e1eb;
+            border-radius: 8px;
+
+        }
+
+        .card {
+            box-shadow: none;
+            border: 2px solid #e0e1eb;
+            background: white;
+            min-height: 10rem;
+        }
+
+block body
+    .card

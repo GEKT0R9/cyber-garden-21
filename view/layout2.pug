@@ -121,18 +121,18 @@ html(lang="ru")
         .header
             .title
                 img(src="img/logo.png")
-                h3 ЛолКекЧебурек
+                h3 Health Panel
             -
                 const tabs = [
-                    { icon: "fas fa-chart-pie", label: "Обзор", isActive: true },
-                    { icon: "fas fa-ticket-alt", label: "Обращения" },
+                    { icon: "fas fa-chart-pie", label: "Обзор", href: "/dashboard", isActive: activeTab === "dashboard" },
+                    { icon: "fas fa-ticket-alt", label: "Обращения", href: "/reports", isActive: activeTab === "reports" },
                     { icon: "fas fa-chart-bar", label: "Аналитика" },
                     { icon: "fas fa-clipboard", label: "Отчёты" },
-                    { icon: "fas fa-user-cog", label: "Управление персоналом" },
+                    { icon: "fas fa-user-cog", label: "Управление персоналом", href: "/accounts", isActive: activeTab === "accounts" },
                     { icon: "fas fa-book", label: "Список больниц" }
                 ];
             for tab in tabs
-                div(class=tab.isActive?"tab active":"tab")
+                a(class=tab.isActive?"tab active":"tab" href=tab.href)
                     i(class=tab.icon)
                     span=tab.label
             hr(style="border:none;color:gray;background-color:gray;height:1px;margin:1rem 1rem;")
