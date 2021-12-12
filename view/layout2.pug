@@ -155,14 +155,25 @@ html(lang="ru")
                         href: "/analytics",
                         isActive: activeTab === "analytics"
                     },
-                    { icon: "fas fa-clipboard", label: "Отчёты", count: 3 },
+                    {
+                        icon: "fas fa-clipboard",
+                        label: "Отчёты",
+                        href: "/summary",
+                        isActive: activeTab === "summary",
+                        count: 3
+                    },
                     {
                         icon: "fas fa-user-cog",
                         label: "Управление персоналом",
-                        href: "/accounts",
-                        isActive: activeTab === "accounts"
+                        href: "/settings",
+                        isActive: activeTab === "settings"
                     },
-                    { icon: "fas fa-book", label: "Список больниц" }
+                    {
+                        icon: "fas fa-book",
+                        label: "Список больниц",
+                        href: "/builds",
+                        isActive: activeTab === "builds"
+                    }
                 ];
             for tab in tabs
                 a(class=tab.isActive ? "tab active" : "tab" href=tab.href)
@@ -174,7 +185,7 @@ html(lang="ru")
                             i(class="fa fa-circle fa-stack-2x" style="color:#FFC107")
                             strong(class="fa-stack-1x calendar-text fa-inverse")=tab.count
             hr(style="border:none;color:gray;background-color:gray;height:1px;margin:1rem 1rem;")
-            a.tab
+            a.tab(href="/settings")
                 .tab-title
                     i(class="fas fa-cog")
                     span Настройки

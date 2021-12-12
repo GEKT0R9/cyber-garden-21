@@ -19,6 +19,8 @@ block body
             i(class="fas fa-exclamation-circle" style="margin-right:1rem;color:#f44336")
             | Упс...
         p При обработке вашего запроса произошла ошибка. Мы уже знаем о проблеме и занимаемся ей.
+        if errorTip
+            p=errorTip
         p #{errorCode || "500"} - #{errorTitle || "Ошибка"}
         if errorDetails
             details

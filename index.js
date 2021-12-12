@@ -137,6 +137,30 @@ async function main() {
         });
     }));
 
+    app.get("/builds", errorHandler(async (req, res, render) => {
+        if (!req.user) {
+            res.redirect("/");
+            return;
+        }
+        await errorLite(req, res, 500, "Нет данных 😥");
+    }));
+
+    app.get("/settings", errorHandler(async (req, res, render) => {
+        if (!req.user) {
+            res.redirect("/");
+            return;
+        }
+        await errorLite(req, res, 500, "Нет данных 😥");
+    }));
+
+    app.get("/summary", errorHandler(async (req, res, render) => {
+        if (!req.user) {
+            res.redirect("/");
+            return;
+        }
+        await errorLite(req, res, 500, "Нет данных 😥");
+    }));
+
     app.get("/dashboard", errorHandler(async (req, res, render) => {
         if (!req.user) {
             res.redirect("/");
@@ -161,13 +185,14 @@ async function main() {
         console.log(`weblog Web server live on port http://127.0.0.1:${ process.env.PORT || 80 }/`);
     });
 
-    function errorLite(req, res, errorCode, errorTitle, errorDetails) {
+    function errorLite(req, res, errorCode, errorTitle, errorDetails, errorTip) {
         res.status(errorCode).render(path.join(__dirname, "view", "error.pug"), {
             basedir: path.join(__dirname, "view", "error.pug"),
             current_page: "error",
             errorCode,
             errorTitle,
-            errorDetails
+            errorDetails,
+            errorTip
         }, (err, page) => {
             if (err)
                 res.status(500).send(`<pre>${ errorCode } - ${ errorTitle }<br><br>${ errorDetails }</pre>`);
