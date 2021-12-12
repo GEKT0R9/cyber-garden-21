@@ -56,7 +56,7 @@ async function main() {
     });
     app.use(async (req, res, next) => {
         if (req.cookies.aid) {
-            req.user = await db.rquery1("select id, last_name, first_name, middle_name, username, email from account where id=$1", [ req.cookies.aid ]);
+            req.user = await db.rquery1("select id, last_name, first_name, middle_name, username, email, avatar_id from account where id=$1", [ req.cookies.aid ]);
         }
         next();
     });
@@ -97,6 +97,16 @@ async function main() {
         }
         res.render(path.join(__dirname, "view", "reports.pug"), {
             activeTab: "reports"
+        });
+    });
+    
+    app.get("/analytics", (req, res, next) => {
+        if (!req.user) {
+            res.redirect("/");
+            return;
+        }
+        res.render(path.join(__dirname, "view", "analytics.pug"), {
+            activeTab: "analytics"
         });
     });
 
