@@ -4,6 +4,7 @@ block header
     h2=errorTitle || "Ошибка"
 
 block head
+    title #{errorCode || "500"} - #{errorTitle || "Ошибка"}
     style.
         .card {
             box-shadow: none;
@@ -18,6 +19,7 @@ block body
             i(class="fas fa-exclamation-circle" style="margin-right:1rem;color:#f44336")
             | Упс...
         p При обработке вашего запроса произошла ошибка. Мы уже знаем о проблеме и занимаемся ей.
+        p #{errorCode || "500"} - #{errorTitle || "Ошибка"}
         if errorDetails
             details
                 summary Вот что мы знаем о ней
