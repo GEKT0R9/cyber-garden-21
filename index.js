@@ -69,17 +69,30 @@ async function main() {
         next();
     });
 
-    app.get("/", (req, res, next) => {
-        res.render(path.join(__dirname, "view", "index.pug"));
-    });
+    async function errorHandler(view) {
 
-    app.get("/auth", async (req, res, next) => {
+    }
+
+    app.get("/", errorHandler((req, res, render) => {
+        if (req.user) {
+            res.redirect("/dashboard");
+            return;
+        }
+        res.render(path.join(__dirname, "view", "index.pug"), {
+            err: req.query.err
+        });
+    }));
+
+    app.get("/auth", errorHandler(async (req, res, render) => {
         if (req.user) {
             res.clearCookie("aid");
             res.redirect("/");
         } else {
             if (req.query.l && req.query.p) {
-                const aid = await db.rquery1(`select id from account where username = $1 and password = $2`, [ req.query.l, checksum(req.query.p) ]);
+                const aid = await db.rquery1(`select id
+                                              from account
+                                              where username = $1
+                                                and password = $2`, [ req.query.l, checksum(req.query.p) ]);
                 if (aid) {
                     res.cookie("aid", aid.id);
                     res.redirect("/dashboard");
@@ -88,9 +101,9 @@ async function main() {
             }
             res.redirect("/?err=Неверный логин или пароль");
         }
-    });
+    }));
 
-    app.get("/reports", (req, res, next) => {
+    app.get("/reports", errorHandler((req, res, render) => {
         if (!req.user) {
             res.redirect("/");
             return;
@@ -98,9 +111,9 @@ async function main() {
         res.render(path.join(__dirname, "view", "reports.pug"), {
             activeTab: "reports"
         });
-    });
-    
-    app.get("/analytics", (req, res, next) => {
+    }));
+
+    app.get("/analytics", errorHandler((req, res, render) => {
         if (!req.user) {
             res.redirect("/");
             return;
@@ -108,9 +121,9 @@ async function main() {
         res.render(path.join(__dirname, "view", "analytics.pug"), {
             activeTab: "analytics"
         });
-    });
+    }));
 
-    app.get("/dashboard", (req, res, next) => {
+    app.get("/dashboard", errorHandler((req, res, render) => {
         if (!req.user) {
             res.redirect("/");
             return;
@@ -118,9 +131,9 @@ async function main() {
         res.render(path.join(__dirname, "view", "dashboard.pug"), {
             activeTab: "dashboard"
         });
-    });
+    }));
 
-    app.get("/accounts", (req, res, next) => {
+    app.get("/accounts", errorHandler((req, res, render) => {
         if (!req.user) {
             res.redirect("/");
             return;
@@ -128,11 +141,15 @@ async function main() {
         res.render(path.join(__dirname, "view", "accounts.pug"), {
             activeTab: "accounts"
         });
-    });
+    }));
 
     app.listen(process.env.PORT || 80, () => {
         console.log(`weblog Web server live on port http://127.0.0.1:${ process.env.PORT || 80 }/`);
     });
+
+    function errorLite() {
+
+    }
 }
 
 function checksum(string, hashName = "md5") {
