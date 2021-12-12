@@ -117,5 +117,36 @@ block body
                     a Забыли пароль?
                 input(type="password" name="p" placeholder="Введите пароль")
             input(id="send-btn" type="submit" hidden)
+            if (err)
+                style.
+                    .note-danger {
+                        /*background: #f12b2c77;*/
+                        border: 3px solid #f12b2c77;
+                        color: #e83849;
+                        font-weight: bold;
+                        padding: 0.5rem;
+                        border-radius: 8px;
+                        animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+                    }
+
+                    @keyframes shake {
+                        10%, 90% {
+                            transform: translate3d(-1px, 0, 0);
+                        }
+
+                        20%, 80% {
+                            transform: translate3d(2px, 0, 0);
+                        }
+
+                        30%, 50%, 70% {
+                            transform: translate3d(-4px, 0, 0);
+                        }
+
+                        40%, 60% {
+                            transform: translate3d(4px, 0, 0);
+                        }
+                    }
+                .note-danger
+                    p=err
             label.btn(for="send-btn") Войти
         p.desc Нет аккаунта?<br>Подойдите к администратору вашей организации

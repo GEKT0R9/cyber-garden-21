@@ -54,14 +54,6 @@ block head
             border: 1px solid #dfe0eb;
         }
 
-        tr:not(:last-child) {
-            border-bottom: 1px solid #dfe0eb;
-        }
-
-        tr:hover{
-            background: #0001;
-        }
-
         .pill {
             padding: .2rem .5rem;
             border-radius: 8px;
@@ -87,12 +79,17 @@ block body
         table
             tr
                 th Детали обращения
+                    i(class="fas fa-sort" style="margin-left:1rem")
                 th Заявитель
+                    i(class="fas fa-sort" style="margin-left:1rem")
                 th Срок
+                    i(class="fas fa-sort" style="margin-left:1rem")
                 th Категория
+                    i(class="fas fa-sort" style="margin-left:1rem")
                 th
             -
-                const reports = [ {
+                const reports = [
+                    {
                     avatar: "img/838bbc897d3a0307.jpg",
                     title: "Не приходит сертификат о вакцинации",
                     submit: "02.03.2021",
@@ -125,6 +122,23 @@ block body
                     submit: "12.12.2021",
                     name: "Вихирева Милана Даниловна",
                     expire: "11.01.2022",
+                    expireNote: "В работе",
+                    expireNoteColor: "#3751FF",
+                    expireIcon: "fas fa-running",
+                    category: {
+                        label: "Ремонт",
+                        color: "#8bc34a"
+                    }
+                }, {
+                    avatar: "img/e1c8fcf8fcfcdcc0.jpg",
+                    title: "Течет крыша в больнице “Кировская”",
+                    files: 3,
+                    submit: "12.12.2021",
+                    name: "Вихирева Милана Даниловна",
+                    expire: "11.01.2022",
+                    expireNote: "В работе",
+                    expireNoteColor: "#3751FF",
+                    expireIcon: "fas fa-running",
                     category: {
                         label: "Ремонт",
                         color: "#8bc34a"
