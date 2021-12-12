@@ -69,16 +69,33 @@ async function main() {
         next();
     });
 
-    async function errorHandler(view) {
-
+    function errorHandler(view) {
+        return async (req, res, next) => {
+            return await view(req, res, async (view, options) => {
+                try {
+                    res.render(path.join(__dirname, "view", view), {
+                        ...options
+                    }, async (err, page) => {
+                        if (err) {
+                            console.error(err);
+                            await errorLite(req, res, 500, "Ошибка макета", err.message);
+                        } else
+                            res.end(page);
+                    });
+                } catch (err) {
+                    await errorLite(req, res, 500, "Ошибка на сервере", err.message);
+                    console.error(err);
+                }
+            });
+        };
     }
 
-    app.get("/", errorHandler((req, res, render) => {
+    app.get("/", errorHandler(async (req, res, render) => {
         if (req.user) {
             res.redirect("/dashboard");
             return;
         }
-        res.render(path.join(__dirname, "view", "index.pug"), {
+        await render("index.pug", {
             err: req.query.err
         });
     }));
@@ -103,42 +120,42 @@ async function main() {
         }
     }));
 
-    app.get("/reports", errorHandler((req, res, render) => {
+    app.get("/reports", errorHandler(async (req, res, render) => {
         if (!req.user) {
             res.redirect("/");
             return;
         }
-        res.render(path.join(__dirname, "view", "reports.pug"), {
+        await render("reports.pug", {
             activeTab: "reports"
         });
     }));
 
-    app.get("/analytics", errorHandler((req, res, render) => {
+    app.get("/analytics", errorHandler(async (req, res, render) => {
         if (!req.user) {
             res.redirect("/");
             return;
         }
-        res.render(path.join(__dirname, "view", "analytics.pug"), {
+        await render("analytics.pug", {
             activeTab: "analytics"
         });
     }));
 
-    app.get("/dashboard", errorHandler((req, res, render) => {
+    app.get("/dashboard", errorHandler(async (req, res, render) => {
         if (!req.user) {
             res.redirect("/");
             return;
         }
-        res.render(path.join(__dirname, "view", "dashboard.pug"), {
+        await render("dashboard.pug", {
             activeTab: "dashboard"
         });
     }));
 
-    app.get("/accounts", errorHandler((req, res, render) => {
+    app.get("/accounts", errorHandler(async (req, res, render) => {
         if (!req.user) {
             res.redirect("/");
             return;
         }
-        res.render(path.join(__dirname, "view", "accounts.pug"), {
+        await render("accounts.pug", {
             activeTab: "accounts"
         });
     }));
@@ -147,8 +164,19 @@ async function main() {
         console.log(`weblog Web server live on port http://127.0.0.1:${ process.env.PORT || 80 }/`);
     });
 
-    function errorLite() {
-
+    function errorLite(req, res, errorCode, errorTitle, errorDetails) {
+        res.status(errorCode).render(path.join(__dirname, "view", "error.pug"), {
+            basedir: path.join(__dirname, "view", "error.pug"),
+            current_page: "error",
+            errorCode,
+            errorTitle,
+            errorDetails
+        }, (err, page) => {
+            if (err)
+                res.status(500).send(`<pre>${ errorCode } - ${ errorTitle }<br><br>${ errorDetails }</pre>`);
+            else
+                res.end(page);
+        });
     }
 }
 

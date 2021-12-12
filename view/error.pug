@@ -1,0 +1,24 @@
+extends layout2.pug
+
+block header
+    h2=errorTitle || "Ошибка"
+
+block head
+    style.
+        .card {
+            box-shadow: none;
+            border: 2px solid #e0e1eb;
+            background: white;
+            min-height: 10rem;
+        }
+
+block body
+    .card
+        h2
+            i(class="fas fa-exclamation-circle" style="margin-right:1rem;color:#f44336")
+            | Упс...
+        p При обработке вашего запроса произошла ошибка. Мы уже знаем о проблеме и занимаемся ей.
+        if errorDetails
+            details
+                summary Вот что мы знаем о ней
+                pre=errorDetails
