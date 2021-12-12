@@ -11,7 +11,7 @@ block head
     style.
         .flex {
             display: flex;
-            align-items: baseline;
+            align-items: center;
         }
 
         .dropdown {
@@ -29,5 +29,107 @@ block head
             min-height: 10rem;
         }
 
+        .card > .title {
+            display: flex;
+            justify-content: space-between;
+
+        }
+
+        table {
+            width: 100%;
+            margin-top: 1rem;
+            text-align: left;
+        }
+
+        td, th {
+            padding: .4rem;
+        }
+
+        td img {
+            max-width: 70px;
+            max-height: 70px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            background: #dfe0eb;
+            border: 1px solid #dfe0eb;
+        }
+
+        tr:not(:last-child) {
+            border-bottom: 1px solid #dfe0eb;
+        }
+
+        .reportTitle span {
+            display: block;
+        }
+
+        .expires span {
+            display: block;
+        }
+
+        .pill {
+            padding: .2rem .5rem;
+            border-radius: 8px;
+        }
+
+        .moreIcon {
+            color: gray;
+        }
+
 block body
     .card
+        .title
+            h3 Все обращения
+            .lefter
+                span.interactive.dropdown
+                    i(class="fas fa-sort-alpha-down" style="margin-right:1rem")
+                    | Сортировка
+                span.interactive.dropdown
+                    i(class="fas fa-filter" style="margin-right:1rem")
+                    | Фильтры
+        table
+            tr
+                th Детали обращения
+                th Имя
+                th Срок
+                th Тег
+                th
+            -
+                const reports = [ {
+                    avatar: "img/07070b1b3f3f3b13.jpg",
+                    title: "Течет крыша в больнице “Кировская”",
+                    submit: "12.12.2021",
+                    name: "Вихирева Милана Даниловна",
+                    expire: "11.01.2022",
+                    expireNote: "Просрочено",
+                    category: {
+                        label: "Ремонт",
+                        color: "#8bc34a"
+                    }
+                }, {
+                    avatar: "img/c78b9d393d3d3918.jpg",
+                    title: "Руководство больнице плохо относится к пациентам",
+                    submit: "03.08.2021",
+                    name: "Сафарова Кристина Платоновна",
+                    expire: "05.03.2022",
+                    category: {
+                        label: "Персонал",
+                        color: "#2196F3"
+                    }
+                } ];
+            for report in reports
+                tr
+                    td.flex
+                        img(src=report.avatar)
+                        div.reportTitle
+                            span=report.title
+                            span Дата подачи: #{report.submit}
+                    td
+                        p=report.name
+                    td.expires
+                        span=report.expire
+                        if (report.expireNote)
+                            span=report.expireNote
+                    td
+                        span.pill(style=`background-color:${ report.category.color }`)=report.category.label
+                    td
+                        i.moreIcon(class="fas fa-angle-right fa-2x")
