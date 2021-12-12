@@ -49,7 +49,7 @@ html(lang="ru")
                 margin: auto 0;
             }
 
-            .tab a {
+            .tab span {
                 margin-left: 1rem;
             }
 
@@ -134,14 +134,14 @@ html(lang="ru")
             for tab in tabs
                 div(class=tab.isActive?"tab active":"tab")
                     i(class=tab.icon)
-                    a=tab.label
+                    span=tab.label
             hr(style="border:none;color:gray;background-color:gray;height:1px;margin:1rem 1rem;")
             .tab
                 i(class="fas fa-cog")
-                a Настройки
-            .tab
+                span Настройки
+            a.tab(href="/auth?logout=1")
                 i(class="fas fa-sign-out-alt")
-                a Выход
+                span Выход
         .content-body
             .header
                 block header
@@ -149,6 +149,6 @@ html(lang="ru")
                     i.interactive(class="fas fa-search fa-lg")
                     i.interactive(class="fas fa-bell fa-lg")
                     .profile.interactive
-                        a Патрик
+                        span Патрик
                         img(src="img/patrik.webp")
             block body

@@ -1,10 +1,38 @@
+const { Client } = require("pg");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const compression = require("compression");
 const path = require("path");
-require("./features.js")
+require("./features.js");
+
+const db = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
+
+db.rquery = async (sql, params) => {
+    try {
+        const res = await db.query(sql, params);
+        return res.rows;
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+};
+db.rquery1 = async (sql, params) => {
+    const res = await db.rquery(sql, params);
+    return res[0];
+};
+db.connect();
+
+process.on("SIGINT", async (code) => {
+    db.end();
+    console.log(`*** About to exit with code: ${ code }`);
+});
 
 async function main() {
     const app = express();
@@ -26,6 +54,12 @@ async function main() {
         console.log(`[api] webRequest ${ req.ip }, ${ req.connection.remoteAddress }, ${ req.method }, ${ req.originalUrl }, ${ id }, ${ JSON.stringify(req.headers) }`);
         next();
     });
+    app.use(async (req, res, next) => {
+        if (req.cookies.aid) {
+            req.user = await db.rquery1("select id, last_name, first_name, middle_name, username, email from account where id=$1", [ req.cookies.aid ]);
+        }
+        next();
+    });
 
     app.use((req, res, next) => {
         if (Math.random() < 0.5)
@@ -37,6 +71,23 @@ async function main() {
 
     app.get("/", (req, res, next) => {
         res.render(path.join(__dirname, "view", "index.pug"));
+    });
+
+    app.get("/auth", async (req, res, next) => {
+        if (req.user) {
+            res.clearCookie("aid");
+            res.redirect("/");
+        } else {
+            if (req.query.l && req.query.p) {
+                const aid = await db.rquery1(`select id from account where username = $1 and password = $2`, [ req.query.l, checksum(req.query.p) ]);
+                if (aid) {
+                    res.cookie("aid", aid.id);
+                    res.redirect("/dashboard");
+                    return;
+                }
+            }
+            res.redirect("/?err=Неверный логин или пароль");
+        }
     });
 
     app.get("/dashboard", (req, res, next) => {

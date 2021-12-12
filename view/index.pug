@@ -105,15 +105,15 @@ block body
             img(src="img/logo.png")
             h3 ЛолКекЧебурек
         h2 Вход
-        form
+        form(action="/auth" method="get")
             div.inp
                 label Логин
-                input(type="text" placeholder="Введите лодин")
+                input(type="text" name="l" placeholder="Введите лодин")
             div.inp
                 div(style="display:flex; justify-content: space-between;")
                     label Пароль
                     a Забыли пароль?
-                input(type="text" placeholder="Введите пароль")
+                input(type="text" name="p" placeholder="Введите пароль")
             input(id="send-btn" type="submit" hidden)
             label.btn(for="send-btn") Войти
         p.desc Нет аккаунта?<br>Подойдите к администратору вашей организации
