@@ -2,8 +2,8 @@
 
 namespace app\models;
 
-use app\entity\Users;
-use app\repository\UserRepository;
+use app\entity\Account;
+use app\repository\AccountRepository;
 
 class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
@@ -14,13 +14,14 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $username;
     public $password;
     public $email;
+    public $avatar_id;
 
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return new static(UserRepository::findOneUser(['id' => $id]));
+        return new static(AccountRepository::findOneAccount(['id' => $id]));
     }
 
     /**
@@ -39,7 +40,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return new static(UserRepository::findOneUser(['username' => $username]));
+        return new static(AccountRepository::findOneAccount(['username' => $username]));
     }
 
     /**
@@ -50,7 +51,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findByEmail($email)
     {
-        return new static(UserRepository::findOneUser(['email' => $email]));
+        return new static(AccountRepository::findOneAccount(['email' => $email]));
     }
 
     /**
@@ -90,7 +91,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 
     public function isAvailable($access){
         $result = false;
-        $user = UserRepository::findOneUser(['id' => $this->id]);
+        $user = AccountRepository::findOneAccount(['id' => $this->id]);
         foreach ($user->roles as $role){
             foreach ($role->accesses as $one_access){
                 if ($one_access->access === $access){

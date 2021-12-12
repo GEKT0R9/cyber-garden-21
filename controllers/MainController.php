@@ -78,7 +78,7 @@ class MainController extends Controller
         }
 
         $model->password = '';
-        return $this->render('login', [
+        return $this->renderFile('@app/views/main/login.php', [
             'model' => $model,
         ]);
     }

@@ -22,7 +22,8 @@ class m211211_071256_StartDb extends Migration
                 'middle_name' => $this->string(50),
                 'username' => $this->string(50)->notNull()->unique(),
                 'email' => $this->string(50)->notNull()->unique(),
-                'password' => $this->string(256)
+                'password' => $this->string(256),
+                'avatar_id' => $this->integer()
             ]
         );
         $this->insert(
@@ -33,7 +34,7 @@ class m211211_071256_StartDb extends Migration
                 'middle_name' => 'admin',
                 'username' => 'admin',
                 'email' => 'admin@admin.admin',
-                'password' => '$2y$10$VYhgVh19t21sDBJvwlfQmuEk1mu44OfLLqnsVoWwHqHQ3DmlEcd/a',
+                'password' => '21232f297a57a5a743894a0e4a801fc3',
             ]
         );
 
@@ -64,17 +65,19 @@ class m211211_071256_StartDb extends Migration
             'CASCADE',
             'CASCADE'
         );
+
+
         $this->createTable(
-            'user_addresses',
+            'users_phones',
             [
                 'id' => $this->primaryKey(),
                 'user_id' => $this->integer()->notNull(),
-                'address' => $this->string(100)->notNull(),
+                'phone' => $this->string(50)->notNull()->unique(),
             ]
         );
         $this->addForeignKey(
-            'user_id_fk_user_addresses',
-            'user_addresses',
+            'user_id_fk_users_phones',
+            'users_phones',
             'user_id',
             'users',
             'id',
@@ -86,6 +89,7 @@ class m211211_071256_StartDb extends Migration
             'requests',
             [
                 'id' => $this->primaryKey(),
+                'doc_id' => $this->string(100)->notNull(),
                 'title' => $this->string(100)->notNull(),
                 'description' => $this->string(500)->notNull(),
                 'date' => $this->dateTime()->defaultValue(new Expression('NOW()')),
@@ -105,6 +109,25 @@ class m211211_071256_StartDb extends Migration
         );
 
         $this->createTable(
+            'request_addresses',
+            [
+                'id' => $this->primaryKey(),
+                'request_id' => $this->integer()->notNull(),
+                'address' => $this->string(100)->notNull(),
+                'okato_id' => $this->string(100)->notNull(),
+            ]
+        );
+        $this->addForeignKey(
+            'request_id_fk_request_addresses',
+            'request_addresses',
+            'request_id',
+            'requests',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+
+        $this->createTable(
             'files',
             [
                 'id' => $this->primaryKey(),
@@ -113,6 +136,16 @@ class m211211_071256_StartDb extends Migration
                 'size' => $this->integer(),
                 'permission' => $this->string(50)->notNull()
             ]
+        );
+
+        $this->addForeignKey(
+            'avatar_id_fk_account',
+            'account',
+            'avatar_id',
+            'files',
+            'id',
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createTable(
@@ -222,6 +255,106 @@ class m211211_071256_StartDb extends Migration
             'CASCADE',
             'CASCADE'
         );
+
+
+        $this->createTable(
+            'dir_tags',
+            [
+                'id' => $this->primaryKey(),
+                'name' => $this->string(50)->notNull(),
+                'description' => $this->string(500),
+            ]
+        );
+
+        $this->createTable(
+            'request_to_tag',
+            [
+                'id' => $this->primaryKey(),
+                'request_id' => $this->integer()->notNull(),
+                'tag_id' => $this->integer()->notNull(),
+            ]
+        );
+        $this->addForeignKey(
+            'request_id_fk_request_to_tag',
+            'request_to_tag',
+            'request_id',
+            'requests',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'tag_id_fk_request_to_tag',
+            'request_to_tag',
+            'tag_id',
+            'dir_tags',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+
+
+        $this->createTable(
+            'dir_status',
+            [
+                'id' => $this->primaryKey(),
+                'name' => $this->string(50)->notNull(),
+                'description' => $this->string(500),
+            ]
+        );
+
+        $this->createTable(
+            'status_order',
+            [
+                'id' => $this->primaryKey(),
+                'title' => $this->string(50)->notNull(),
+                'description' => $this->string(250),
+                'type_id' => $this->integer()->notNull(),
+                'order' => $this->integer()->notNull(),
+            ]
+        );
+
+        $this->addForeignKey(
+            'status_id_fk_requests',
+            'requests',
+            'status_id',
+            'status_order',
+            'id',
+            'SET NULL',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'type_id_fk_status_order',
+            'status_order',
+            'type_id',
+            'dir_status',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+
+        $this->createTable(
+            'dir_okato',
+            [
+                'id' => $this->primaryKey(),
+                'okato_id' => $this->string(100)->notNull()->unique(),
+                'region' => $this->string(250),
+            ]
+        );
+        // request_addresses
+
+        $this->addForeignKey(
+            'okato_id_fk_request_addresses',
+            'request_addresses',
+            'okato_id',
+            'dir_okato',
+            'okato_id',
+            'CASCADE',
+            'CASCADE'
+        );
+
+
     }
 
     /**
@@ -232,6 +365,7 @@ class m211211_071256_StartDb extends Migration
         $this->dropTable('account');
         $this->dropTable('users');
         $this->dropTable('users_emails');
+        $this->dropTable('users_phones');
         $this->dropTable('requests');
         $this->dropTable('files');
         $this->dropTable('request_to_files');
@@ -239,6 +373,9 @@ class m211211_071256_StartDb extends Migration
         $this->dropTable('roles');
         $this->dropTable('accounts_to_role');
         $this->dropTable('role_to_access');
+        $this->dropTable('dir_status');
+        $this->dropTable('status_order');
+        $this->dropTable('dir_okato');
     }
 
     /*

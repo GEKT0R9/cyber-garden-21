@@ -1,0 +1,34 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url('../fonts/OpenSans.ttf') format('truetype');
+}
+
+html {
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    font-family: 'Open Sans', Arial, serif;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    position: relative;
+    --page-max-weight: 1000px;
+}
+
+.card {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.secondary-button:hover {
+    background: #999;
+}
